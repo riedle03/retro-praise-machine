@@ -29,7 +29,7 @@ h1,h2,h3,.retro-title{
 .crt{
   position:relative; background:#0b1b13; border:6px solid #16a34a; border-radius:12px;
   padding:24px; min-height:160px; display:flex; align-items:center; justify-content:center;
-  color:#a7f3d0; text-shadow:0 0 6px rgba(34,197,94,0.6);
+  color:#a7f3d0; text-shadow: 0 0 6px rgba(34,197,94,0.6);
   font-family:'Press Start 2P', monospace; line-height:1.6; text-align:center; overflow:hidden;
 }
 .crt:before{
@@ -131,10 +131,8 @@ with st.expander("📝 학생 & 칭찬 문구 관리"):
     with colr3:
         st.info(f"남은 학생 수: {max(0, len(st.session_state.students) - len(st.session_state.picked_students))}")
 
-# ===== 중앙: CRT + 버튼 =====
+# ===== 중앙: 버튼 → 상태 업데이트 → CRT 출력 =====
 st.markdown("<div class='retro-card'>", unsafe_allow_html=True)
-st.markdown(f"<div class='crt'>{st.session_state.last_display}<span class='cursor'></span></div>", unsafe_allow_html=True)
-st.write("")
 
 c1, c2, c3 = st.columns([1,1,1])
 with c2:
@@ -168,13 +166,15 @@ with c2:
                     f"""
                     <audio autoplay>
                         <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
-                    </audio>
+                    </source></audio>
                     """,
                     unsafe_allow_html=True
                 )
             else:
                 st.info("💡 사운드를 쓰려면 프로젝트의 assets 폴더에 MP3 파일을 넣어주세요. (예: assets/success1.mp3, assets/coin.mp3, assets/win.mp3)")
 
+# 버튼 처리 이후에 CRT 문구 출력 (즉시 반영)
+st.markdown(f"<div class='crt'>{st.session_state.last_display}<span class='cursor'></span></div>", unsafe_allow_html=True)
 st.markdown("</div>", unsafe_allow_html=True)
 
 # ===== 기록 & 다운로드 =====
